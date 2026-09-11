@@ -1,4 +1,4 @@
-import { gsap } from "gsap/gsap-core";
+// import { gsap } from "gsap/gsap-core";
 import { useRef } from "react";
 
 // const FONT_WEIGHTS = {
