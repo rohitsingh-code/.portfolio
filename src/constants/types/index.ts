@@ -57,4 +57,21 @@ export type PhotosLink = PhotosLinks[number];
 export type Gallerys = typeof gallery;
 export type Gallery = Gallerys[number];
 
+// window types
 
+export type Windowkey = keyof WindowConfigType;
+
+export type WindowState = {
+  isOpen: boolean;
+  zIndex: number;
+  data: unknown;
+};
+
+export type WindowType = {
+  windows: Record<Windowkey, WindowState>;
+  nextZIndex: number;
+
+  openWindow: (windowKey: Windowkey, data?: unknown) => void;
+  closeWindow: (windowKey: Windowkey) => void;
+  focusWindow: (windowKey: Windowkey) => void;          
+}
