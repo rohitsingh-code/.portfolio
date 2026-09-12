@@ -73,6 +73,7 @@ const dockApps = [
     canOpen: false,
   },
 ];
+export type DockApp = typeof dockApps[number];
 
 const blogPosts = [
   {
