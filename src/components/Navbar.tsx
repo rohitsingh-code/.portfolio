@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { navIcons, navLinks } from "@/constants";
+import { navIcons, navLinks } from "@/constants/data";
 
 const Navbar = () => {
   return (
