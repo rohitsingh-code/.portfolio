@@ -19,7 +19,7 @@ const renderText = (text: string, className: string, baseWeight = 400) => {
 }
 
 const setupTextHover = (container: HTMLElement | null , type: keyof typeof FONT_WEIGHTS) => {
-  if (!container) return;
+  if (!container) return() => {};
 
   const letters = container.querySelectorAll("span");
   const { min, max, default: base } = FONT_WEIGHTS[type];
@@ -40,7 +40,7 @@ const setupTextHover = (container: HTMLElement | null , type: keyof typeof FONT_
     letters.forEach((letter: any) => {
       const { left: l, width: w } = letter.getBoundingClientRect();
       const distance = Math.abs(mouseX - (l - left + w/2));
-      const intensity = Math.exp(-(distance ** 2) / 200);
+      const intensity = Math.exp(-(distance ** 2) / 20000); // changed 200 to 20000 for smoothness
 
       animateLetter(letter, min + (max - min) * intensity);
     });
