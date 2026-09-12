@@ -4,10 +4,12 @@ import gsap from "gsap"
 
 import { dockApps, type DockApp } from "@/constants"
 import { useGSAP } from "@gsap/react"
+import useWindowStore from "@/store/window"
 
 type DockAppToggle = Pick<DockApp, "id" | "canOpen">; // secondary type to furthur divide the DockApp
 
 export const Dock = () => {
+  const { openWindow, closeWindow, windows } = useWindowStore();
   const dockRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -59,8 +61,22 @@ export const Dock = () => {
   },[]);
 
   const toggleApp = (app: DockAppToggle) => { // using DockAppToggle type because only need id and icon not whole DockApp
-      if (!app.canOpen) return;
-    // TODO Implement Open Window Logic 
+    if (!app.canOpen) return;
+
+    const window = windows[app.id];
+
+    if(!window){
+      console.error(`Window not found for app: ${app.id}`)
+      return;
+    }
+
+    if(window.isOpen) {
+      closeWindow(app.id);
+    } else {
+      openWindow(app.id);
+    }
+
+    console.log(windows);
   }
 
   return (
