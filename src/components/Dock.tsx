@@ -7,7 +7,6 @@ import type { DockApp } from "@/constants/types"
 import { useGSAP } from "@gsap/react"
 import useWindowStore from "@/store/window"
 
-type DockAppToggle = Pick<DockApp, "id" | "canOpen">; // secondary type to furthur divide the DockApp
 
 export const Dock = () => {
   const { openWindow, closeWindow, windows } = useWindowStore();
@@ -52,8 +51,8 @@ export const Dock = () => {
           ease: "power1.out",
         }),
       );
-      dock.addEventListener("mousemove", handleMouseMove);
-      dock.addEventListener("mouseleave", resetIcons);
+    dock.addEventListener("mousemove", handleMouseMove);
+    dock.addEventListener("mouseleave", resetIcons);
 
       return () => {
         dock.removeEventListener("mousemove", handleMouseMove);
@@ -61,17 +60,17 @@ export const Dock = () => {
       };
   },[]);
 
-  const toggleApp = (app: DockAppToggle) => { // using DockAppToggle type because only need id and icon not whole DockApp
+  const toggleApp = (app: DockApp) => { // using DockAppToggle type because only need id and icon not whole DockApp
     if (!app.canOpen) return;
 
-    const window = windows[app.id];
+    const appwindow = windows[app.id];
 
-    if(!window){
+    if(!appwindow){
       console.error(`Window not found for app: ${app.id}`)
       return;
     }
 
-    if(window.isOpen) {
+    if(appwindow.isOpen) {
       closeWindow(app.id);
     } else {
       openWindow(app.id);
@@ -84,23 +83,23 @@ export const Dock = () => {
     <section id="dock">
       <div ref={dockRef} className="dock-container">
         {
-          dockApps.map(({id, name, icon, canOpen}) => (
-            <div key={id} className="relative flex justify-center">
+          dockApps.map((app) => (
+            <div key={app.id} className="relative flex justify-center">
               <button
                 type="button"
                 className="dock-icon"
-                aria-label={name}
+                aria-label={app.name}
                 data-tooltip-id="dock-tooltip"
-                data-tooltip-content={name}
+                data-tooltip-content={app.name}
                 data-tooltip-delay-show={150}
-                disabled={!canOpen}
-                onClick={() => toggleApp({id, canOpen})}
+                disabled={!app.canOpen}
+                onClick={() => toggleApp(app)}
               >
                 <img
-                src={`/images/${icon}`}
-                alt={name}
+                src={`/images/${app.icon}`}
+                alt={app.name}
                 loading="lazy"
-                className={canOpen ? "" : "opacity-60"}
+                className={app.canOpen ? "" : "opacity-60"}
               />
               </button>
             </div>

@@ -1,18 +1,19 @@
-import { INITIAL_Z_INDEX, WINDOW_CONFIG } from "@/constants";
+import { INITIAL_Z_INDEX, WINDOW_CONFIG } from "@/constants/data";
+import type { WindowType } from "@/constants/types";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
-const useWindowStore = create(
+const useWindowStore = create<WindowType>()(
   immer((set) => ({
-    window: WINDOW_CONFIG,
+    windows: structuredClone(WINDOW_CONFIG),
     nextZIndex: INITIAL_Z_INDEX + 1,
 
-    openWindow: (windowKey, data: null) => 
+    openWindow: (windowKey, data) => 
       set((state) => {
         const win = state.windows[windowKey];
         if(!win) return;
         win.isOpen = true;
-        win.zIdex = state.nextZIndex;
+        win.zIndex = state.nextZIndex;
         win.data = data ?? win.data;
         state.nextZIndex++;
     }),
@@ -21,14 +22,14 @@ const useWindowStore = create(
       const win = state.windows[windowKey];
       if(!win) return;
       win.isOpen = false;
-      win.zIdex = INITIAL_Z_INDEX;
+      win.zIndex = INITIAL_Z_INDEX;
       win.data = null;
     }),
     
     focusWindow: (windowKey) => set((state) => {
       const win = state.windows[windowKey];
       if(!win) return;
-      win.zIdex = state.nextZIndex++;
+      win.zIndex = state.nextZIndex++;
     }),
     
     
