@@ -8,7 +8,7 @@ import { useGSAP } from "@gsap/react"
 import useWindowStore from "@/store/window"
 
 
-export const Dock = () => {
+const Dock = () => {
   const { openWindow, closeWindow, windows } = useWindowStore();
   const dockRef = useRef<HTMLDivElement>(null);
 
@@ -110,3 +110,5 @@ export const Dock = () => {
     </section>
   )
 }
+
+export default Dock;
